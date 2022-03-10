@@ -15,14 +15,20 @@
 
 Auth::routes();
 
-Route::resource('/', 'HomeController');
+Route::group(['middleware' => ['auth']], function () {
 
-Route::get('/home', 'HomeController@index')->name('home');
+    Route::group(['middleware' => ['role:1,99']], function() {
+        
+        Route::resource('users', 'UserController');
 
-Route::group(['middleware' => ['role:1,99']], function() {
-    Route::resource('users', 'UserController');
+        Route::get('/export-pdf', 'UserController@exportPDF')->name('export-pdf');
+        
+        Route::get('export-excel', 'UserController@exportExcel')->name('export-excel');
+    });
+
+    Route::resource('/', 'HomeController');
+
+    Route::get('/home', 'HomeController@index')->name('home');
+    
+
 });
-
-Route::get('/export-pdf', 'UserController@exportPDF')->name('export-pdf');
-
-Route::get('export-excel', 'UserController@exportExcel')->name('export-excel');

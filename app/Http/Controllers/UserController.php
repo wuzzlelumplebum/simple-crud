@@ -9,6 +9,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
 use Barryvdh\DomPDF\Facade\PDF;
 use Maatwebsite\Excel\Facades\Excel;
+use Illuminate\Validation\Rule;
 
 class UserController extends Controller
 {
@@ -53,7 +54,7 @@ class UserController extends Controller
             'email'=>'required',
             'no_hp'=>'required',
             'alamat'=>'required',
-            'username'=>'required',
+            'username'=>['required', Role::unique('users')->whereNull('deleted_at')],
             'role'=>'required'
         ]);
 
@@ -102,7 +103,7 @@ class UserController extends Controller
     public function update(Request $request, User $user)
     {
         $request->validate([
-            'nama' => 'required',
+            'name' => 'required',
             'email' => 'required',
             'no_hp' => 'required',
             'alamat' => 'required',

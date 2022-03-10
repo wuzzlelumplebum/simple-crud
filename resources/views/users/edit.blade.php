@@ -81,7 +81,7 @@
                                 <div class="col-lg-10">
                                     <select name="role" class="form-control form-control-uniform">
                                         @foreach (config('custom.role') as $key => $value)
-                                            <option value="{{ $key }}">{{ $value }}</option>
+                                            <option value="{{ $key }}" selected>{{ $value }}</option>
                                             
                                         @endforeach
                                     </select>
